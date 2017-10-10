@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_power.c                                         :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/04 14:40:31 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/09 16:44:47 by rhallste         ###   ########.fr       */
+/*   Created: 2017/10/09 19:22:06 by rhallste          #+#    #+#             */
+/*   Updated: 2017/10/09 19:27:17 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_power(int base, int power)
-{
-	int i;
-	int	nb;
+#include <stdlib.h>
+#include "libft.h"
 
-	i = 1;
-	nb = 1;
-	while (i <= power)
-	{
-		nb *= base;
-		i++;
-	}
-	return (nb);
+void	*ft_realloc(void *src, size_t size)
+{
+	void *new;
+
+	if (!src)
+		return (ft_memalloc(size));
+	if (!size)
+		return (NULL);
+	if (!(new = ft_memalloc(size)))
+		return (NULL);
+	ft_memcpy(new, src, size);
+	free(src);
+	return (new);
 }

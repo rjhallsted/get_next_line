@@ -6,7 +6,7 @@
 #    By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/18 09:37:14 by rhallste          #+#    #+#              #
-#    Updated: 2017/10/04 14:42:02 by rhallste         ###   ########.fr        #
+#    Updated: 2017/10/09 19:33:27 by rhallste         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -85,6 +85,7 @@ B_SRCS		=	ft_free_2d_array			\
 				ft_lstmap					\
 				ft_lstnew					\
 				ft_power					\
+				ft_realloc					\
 				ft_swap
 
 SRCS		=	$(addsuffix .c, $(P1_SRCS) $(P2_SRCS) $(B_SRCS))
