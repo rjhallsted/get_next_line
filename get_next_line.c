@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/13 19:31:16 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/14 14:13:56 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,44 @@
 
 #include <stdio.h>
 
-static void	buff_to_line(char **line, char *buff, size_t line_size, int start, int rv)
+static void	buff_to_line(char **line, char *buff, size_t line_size, int copy_size)
 {
 	*line = ft_realloc(*line, line_size);
-	ft_strncat(*line, buff + start, rv);
+	ft_strncat(*line, buff, copy_size);
+	ft_bzero(buff, BUFF_SIZE);
 }
 
 int	get_next_line(const int fd, char **line)
 {
-	static int	last_pos;
-	int			rv;
-	int			read_line;
-	size_t		line_size;
-	static char	buff[BUFF_SIZE];
+	char	buff[BUFF_SIZE + 1];
+	int		rv;	
+	int		line_length;
+	char	*char_pos;
 
-	line_size = 0;
-	*line = NULL;
-	printf("last_pos: %d\n", last_pos);
-	if (last_pos && last_pos != BUFF_SIZE - 1)
-		buff_to_line(line, buff, BUFF_SIZE - last_pos, last_pos, BUFF_SIZE - last_pos);
+	line_length = 0;
 	rv = 1;
-	read_line = 0;
-	while (rv != 0 && !read_line)
+	if (line)
+		ft_strclr(*line);
+	ft_bzero(buff, BUFF_SIZE);
+	while (rv)
 	{
-		rv = read(fd, buff, BUFF_SIZE);
 		if ((rv = read(fd, buff, BUFF_SIZE)) == -1)
 			return (-1);
-		last_pos = 0;
-		while (last_pos < BUFF_SIZE && buff[last_pos] != '\n')
-			last_pos++;
-		if (buff[last_pos] == '\n' || rv == 0)
-			read_line = 1;
-		line_size += last_pos;
-		buff_to_line(line, buff, line_size, 0, rv);
-		printf("Line is: %s\n", *line);
+		if (rv == 0)
+			return (0);
+		buff[BUFF_SIZE] = '\0';
+		char_pos = ft_strchr(buff, '\n');
+		if (char_pos)
+		{
+			line_length += char_pos - buff;
+			buff_to_line(line, buff, line_length, char_pos - buff);
+			return (1);
+		}
+		else
+		{
+			line_length += rv;
+			buff_to_line(line, buff, line_length, rv);
+		}
 	}
-	return ((read_line) ? !(rv == 0) : -1);
+	return (-1);
 }
