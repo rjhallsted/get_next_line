@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 11:31:58 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/09 19:32:30 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/13 18:40:21 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+# define MIN(a, b) ((a < b) ? a : b)
+# define MAX(a, b) ((a > b) ? a : b)
 
 void				ft_bzero(void *s, size_t n);
 int					ft_atoi(char const *str);
@@ -46,7 +49,6 @@ void				ft_lst_remove_if(t_list **begin_list, void *data_ref,
 						int (*cmp)());
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *));
 t_list				*ft_lstnew(void const *content, size_t content_size);
-int					ft_max(int a, int b);
 void				*ft_memalloc(size_t len);
 void				*ft_memchr(void const *s, int c, size_t n);
 void				*ft_memccpy(void *dds, void const *src, int c, size_t n);
@@ -55,7 +57,6 @@ void				*ft_memcpy(void *dst, void const *src, size_t n);
 void				ft_memdel(void **ap);
 void				*ft_memmove(void *dst, void const *src, size_t n);
 void				*ft_memset(void *b, int c, size_t len);
-int					ft_min(int a, int b);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					ft_power(int base, int power);
