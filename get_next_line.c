@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/14 14:13:56 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/14 15:03:52 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,35 @@
 
 #include <stdio.h>
 
+static void shift_chars_left(char *buff, int shift_by)
+{
+	int i;
+
+	i = 0;
+	while (buff[i] && buff[i + shift_by] && i < (BUFF_SIZE - shift_by))
+	{
+		buff[i] = buff[i + shift_by];
+		i++;
+	}
+	ft_bzero(buff + i, BUFF_SIZE - i);
+}
+
 static void	buff_to_line(char **line, char *buff, size_t line_size, int copy_size)
 {
 	*line = ft_realloc(*line, line_size);
 	ft_strncat(*line, buff, copy_size);
-	ft_bzero(buff, BUFF_SIZE);
+	if (copy_size < BUFF_SIZE)
+	{
+		shift_chars_left(buff, copy_size + 1);
+		ft_bzero(buff + (BUFF_SIZE - copy_size + 1), copy_size + 1);
+	}
+	else
+		ft_bzero(buff, BUFF_SIZE);
 }
 
 int	get_next_line(const int fd, char **line)
 {
-	char	buff[BUFF_SIZE + 1];
+	static char	buff[BUFF_SIZE + 1];
 	int		rv;	
 	int		line_length;
 	char	*char_pos;
@@ -35,7 +54,15 @@ int	get_next_line(const int fd, char **line)
 	rv = 1;
 	if (line)
 		ft_strclr(*line);
-	ft_bzero(buff, BUFF_SIZE);
+	printf("buff: %s\n", buff);
+	char_pos = ft_strchr(buff, '\n');
+	if (char_pos)
+	{
+		line_length = char_pos - buff;
+		buff_to_line(line, char_pos, line_length, line_length);
+		return (1);
+	}
+	ft_bzero(buff, BUFF_SIZE);	
 	while (rv)
 	{
 		if ((rv = read(fd, buff, BUFF_SIZE)) == -1)

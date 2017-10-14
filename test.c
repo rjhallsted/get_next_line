@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/13 17:51:48 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/13 18:01:53 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/14 14:24:52 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 		printf("Run's correctly\n");
 		while (get_next_line(fd, &line) > 0)
 		{
-			printf("Line %d: ", i++);
+			printf("Line %d: ", ++i);
 			printf("%s\n", line);
 		}
 	}
