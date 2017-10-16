@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/14 15:03:52 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/16 15:39:21 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void shift_chars_left(char *buff, int shift_by)
 	int i;
 
 	i = 0;
-	while (buff[i] && buff[i + shift_by] && i < (BUFF_SIZE - shift_by))
+	while (buff[i] && buff[i + shift_by])
 	{
 		buff[i] = buff[i + shift_by];
 		i++;
@@ -54,12 +54,13 @@ int	get_next_line(const int fd, char **line)
 	rv = 1;
 	if (line)
 		ft_strclr(*line);
-	printf("buff: %s\n", buff);
 	char_pos = ft_strchr(buff, '\n');
+//	printf("length: %ld\n", char_pos - buff);
+//	printf("buff: %s\n", buff);
 	if (char_pos)
 	{
 		line_length = char_pos - buff;
-		buff_to_line(line, char_pos, line_length, line_length);
+		buff_to_line(line, buff, line_length, line_length);
 		return (1);
 	}
 	ft_bzero(buff, BUFF_SIZE);	
