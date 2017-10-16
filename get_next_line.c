@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/16 15:39:21 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/16 15:55:03 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,14 @@ int	get_next_line(const int fd, char **line)
 	if (line)
 		ft_strclr(*line);
 	char_pos = ft_strchr(buff, '\n');
-//	printf("length: %ld\n", char_pos - buff);
 //	printf("buff: %s\n", buff);
-	if (char_pos)
-	{
-		line_length = char_pos - buff;
+	line_length = (char_pos) ? (char_pos - buff) : ft_strlen(buff);
+//	printf("line length: %d\n", line_length);
+	if (line_length)
 		buff_to_line(line, buff, line_length, line_length);
+	if (char_pos)
 		return (1);
-	}
-	ft_bzero(buff, BUFF_SIZE);	
+	ft_bzero(buff, BUFF_SIZE);
 	while (rv)
 	{
 		if ((rv = read(fd, buff, BUFF_SIZE)) == -1)
