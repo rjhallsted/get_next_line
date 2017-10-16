@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/16 15:55:03 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/16 16:42:15 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	buff_to_line(char **line, char *buff, size_t line_size, int copy_siz
 int	get_next_line(const int fd, char **line)
 {
 	static char	buff[BUFF_SIZE + 1];
-	int		rv;	
+	static int	rv;	
 	int		line_length;
 	char	*char_pos;
 
@@ -63,12 +63,10 @@ int	get_next_line(const int fd, char **line)
 	if (char_pos)
 		return (1);
 	ft_bzero(buff, BUFF_SIZE);
+	if ((rv = read(fd, buff, BUFF_SIZE)) < 1)
+		return (rv);
 	while (rv)
 	{
-		if ((rv = read(fd, buff, BUFF_SIZE)) == -1)
-			return (-1);
-		if (rv == 0)
-			return (0);
 		buff[BUFF_SIZE] = '\0';
 		char_pos = ft_strchr(buff, '\n');
 		if (char_pos)
@@ -81,7 +79,13 @@ int	get_next_line(const int fd, char **line)
 		{
 			line_length += rv;
 			buff_to_line(line, buff, line_length, rv);
+			if (rv == 0)
+				return (1);
 		}
+		if ((rv = read(fd, buff, BUFF_SIZE)) == -1)
+			return (-1);
+		if (rv == 0)
+			return (1);
 	}
 	return (-1);
 }
