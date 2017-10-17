@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/16 17:33:11 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/16 17:34:34 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int			get_next_line(const int fd, char **line)
 
 	if ((line_length = prelim_checks(line, buff)) == -1)
 		return (1);
- 	if ((rv = read(fd, buff, BUFF_SIZE)) < 1)
- 		return (rv);
+	if ((rv = read(fd, buff, BUFF_SIZE)) < 1)
+		return (rv);
 	while (rv)
 	{
 		buff[BUFF_SIZE] = '\0';
