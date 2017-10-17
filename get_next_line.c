@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/16 17:26:14 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/16 17:33:11 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,9 @@ int			get_next_line(const int fd, char **line)
 	static char	buff[BUFF_SIZE + 1];
 	int			rv;
 	int			line_length;
+	int			cp_len;
 	char		*char_pos;
 
-	line_length = 0;
-	rv = 1;
 	if ((line_length = prelim_checks(line, buff)) == -1)
 		return (1);
  	if ((rv = read(fd, buff, BUFF_SIZE)) < 1)
@@ -75,19 +74,11 @@ int			get_next_line(const int fd, char **line)
 	{
 		buff[BUFF_SIZE] = '\0';
 		char_pos = ft_strchr(buff, '\n');
-		if (char_pos)
-		{
-			line_length += char_pos - buff;
-			buff_to_line(line, buff, line_length, char_pos - buff);
+		cp_len = (char_pos) ? (char_pos - buff) : rv;
+		line_length += cp_len;
+		buff_to_line(line, buff, line_length, cp_len);
+		if (char_pos || rv == 0)
 			return (1);
-		}
-		else
-		{
-			line_length += rv;
-			buff_to_line(line, buff, line_length, rv);
-			if (rv == 0)
-				return (1);
-		}
 		if ((rv = read(fd, buff, BUFF_SIZE)) == -1)
 			return (-1);
 		if (rv == 0)
