@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/16 17:34:34 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/16 20:25:43 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <string.h>
 #include "libft/libft.h"
 #include "get_next_line.h"
+
+#include <stdio.h>
 
 static void	shift_chars_left(char *buff, int shift_by)
 {
@@ -30,15 +32,12 @@ static void	shift_chars_left(char *buff, int shift_by)
 
 static void	buff_to_line(char **line, char *buff, size_t line_len, int copy_len)
 {
-	*line = ft_realloc(*line, line_len);
+	int shift_by;
+
+	*line = ft_realloc(*line, line_len + 1);
 	ft_strncat(*line, buff, copy_len);
-	if (copy_len < BUFF_SIZE)
-	{
-		shift_chars_left(buff, copy_len + 1);
-		ft_bzero(buff + (BUFF_SIZE - copy_len + 1), copy_len + 1);
-	}
-	else
-		ft_bzero(buff, BUFF_SIZE);
+	shift_by = (copy_len < BUFF_SIZE) ? copy_len + 1 : 0;
+	shift_chars_left(buff, shift_by);
 }
 
 static int	prelim_checks(char **line, char *buff)
@@ -50,11 +49,9 @@ static int	prelim_checks(char **line, char *buff)
 		ft_strclr(*line);
 	char_pos = ft_strchr(buff, '\n');
 	line_length = (char_pos) ? (char_pos - buff) : ft_strlen(buff);
-	if (line_length)
-		buff_to_line(line, buff, line_length, line_length);
+	buff_to_line(line, buff, line_length, line_length);
 	if (char_pos)
 		return (-1);
-	ft_bzero(buff, BUFF_SIZE);
 	return (line_length);
 }
 
@@ -66,13 +63,13 @@ int			get_next_line(const int fd, char **line)
 	int			cp_len;
 	char		*char_pos;
 
+	buff[BUFF_SIZE] = '\0';
 	if ((line_length = prelim_checks(line, buff)) == -1)
 		return (1);
 	if ((rv = read(fd, buff, BUFF_SIZE)) < 1)
 		return (rv);
 	while (rv)
 	{
-		buff[BUFF_SIZE] = '\0';
 		char_pos = ft_strchr(buff, '\n');
 		cp_len = (char_pos) ? (char_pos - buff) : rv;
 		line_length += cp_len;
