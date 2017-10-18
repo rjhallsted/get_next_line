@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/18 15:33:32 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/18 15:40:18 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int	prelim_checks(char **line, char *buff)
 	return (line_length);
 }
 
-#include <stdio.h>
-
 int			get_next_line(const int fd, char **line)
 {
 	static char	buff[BUFF_SIZE + 1];
@@ -63,13 +61,11 @@ int			get_next_line(const int fd, char **line)
 	int			cp_len;
 	char		*char_pos;
 
-	buff[BUFF_SIZE] = '\0';
 	if ((line_length = prelim_checks(line, buff)) == -1)
 		return (1);
-	if ((rv = read(fd, buff, BUFF_SIZE)) == 0 && ft_strlen(*line) == 0)
-		return (0);
-	if (rv == -1)
-		return (-1);
+	if (((rv = read(fd, buff, BUFF_SIZE)) == 0 && ft_strlen(*line) == 0)
+			|| rv == -1)
+		return (rv);
 	if (rv == 0 && ft_strlen(*line) > 0)
 		return (1);
 	while (rv)
