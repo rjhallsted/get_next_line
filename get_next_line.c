@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/16 20:25:43 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/18 15:33:32 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <string.h>
 #include "libft/libft.h"
 #include "get_next_line.h"
-
-#include <stdio.h>
 
 static void	shift_chars_left(char *buff, int shift_by)
 {
@@ -55,6 +53,8 @@ static int	prelim_checks(char **line, char *buff)
 	return (line_length);
 }
 
+#include <stdio.h>
+
 int			get_next_line(const int fd, char **line)
 {
 	static char	buff[BUFF_SIZE + 1];
@@ -66,8 +66,12 @@ int			get_next_line(const int fd, char **line)
 	buff[BUFF_SIZE] = '\0';
 	if ((line_length = prelim_checks(line, buff)) == -1)
 		return (1);
-	if ((rv = read(fd, buff, BUFF_SIZE)) < 1)
-		return (rv);
+	if ((rv = read(fd, buff, BUFF_SIZE)) == 0 && ft_strlen(*line) == 0)
+		return (0);
+	if (rv == -1)
+		return (-1);
+	if (rv == 0 && ft_strlen(*line) > 0)
+		return (1);
 	while (rv)
 	{
 		char_pos = ft_strchr(buff, '\n');

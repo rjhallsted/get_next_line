@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:40:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/14 14:21:32 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/18 15:12:55 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFF_SIZE
-#  define BUFF_SIZE	10
+#  define BUFF_SIZE	100
 # endif
 
 int	get_next_line(const int fd, char **line);
