@@ -6,9 +6,11 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/18 16:11:03 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:13:14 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//fix segfault for if line is passed as NULL
 
 #include <unistd.h>
 #include <string.h>
