@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/18 23:17:56 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/18 23:40:23 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static int	prelim_checks(char **line, t_data *data)
 {
 	char	*char_pos;
 
-	if (line)
-		ft_strclr(*line);
 	char_pos = ft_strchr(data->buff, '\n');
 	if (char_pos)
 		data->line_len = char_pos - data->buff;
 	else
 		data->line_len = ft_strlen(data->buff);
+	if (*line)
+		ft_strclr(*line);
 	buff_to_line(line, data, data->line_len);
 	return ((char_pos != NULL));
 }
