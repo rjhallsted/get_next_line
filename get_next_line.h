@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:40:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/18 22:44:24 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/18 23:17:11 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ typedef struct	s_data
 	char		buff[BUFF_SIZE + 1];
 }				t_data;
 
-int	get_next_line(const int fd, char **line);
+int				get_next_line(const int fd, char **line);
 
 #endif
