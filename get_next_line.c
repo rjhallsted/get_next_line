@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/18 23:40:23 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/20 00:48:32 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	shift_chars_left(t_data *data, int shift_by)
 static void	buff_to_line(char **line, t_data *data, int copy_len)
 {
 	int shift_by;
-
+	
 	*line = ft_realloc(*line, data->line_len + 1);
 	ft_strncat(*line, data->buff, copy_len);
 	shift_by = (copy_len < BUFF_SIZE) ? copy_len + 1 : 0;
@@ -51,8 +51,7 @@ static int	prelim_checks(char **line, t_data *data)
 		data->line_len = char_pos - data->buff;
 	else
 		data->line_len = ft_strlen(data->buff);
-	if (*line)
-		ft_strclr(*line);
+	*line = NULL;
 	buff_to_line(line, data, data->line_len);
 	return ((char_pos != NULL));
 }
