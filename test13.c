@@ -6,13 +6,14 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 00:55:14 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/20 01:00:24 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/20 01:35:22 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "get_next_line.h"
 
 int main(void)
@@ -21,7 +22,10 @@ int main(void)
 	int		fd;
 	int		ret;
 
-	fd = open("13.txt", O_RDONLY);
+	fd = 0;
+	write(fd, "abcd\n", 5);
+	write(fd, "efgh\n", 5);
+	close(fd);
 	get_next_line(fd, &line);
 	printf("%s-->%d\n", line, (strcmp(line, "abcd") == 0));
 	get_next_line(fd, &line);
