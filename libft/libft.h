@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 11:31:58 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/13 18:40:21 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/21 11:57:06 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int					ft_memcmp(void const *s1, void const *s2, size_t n);
 void				*ft_memcpy(void *dst, void const *src, size_t n);
 void				ft_memdel(void **ap);
 void				*ft_memmove(void *dst, void const *src, size_t n);
+void				*ft_memrealloc(void *src, size_t size);
 void				*ft_memset(void *b, int c, size_t len);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
@@ -68,7 +69,6 @@ void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr(char const *s);
 void				ft_putstr_fd(char const *s, int fd);
-void				*ft_realloc(void *src, size_t size);
 char				*ft_strcat(char *s1, char const *s2);
 int					ft_strcmp(char const *s1, char const *s2);
 char				*ft_strchr(char const *s, int c);

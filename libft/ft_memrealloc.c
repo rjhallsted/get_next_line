@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_memrealloc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/09 19:22:06 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/20 00:50:59 by rhallste         ###   ########.fr       */
+/*   Created: 2017/10/21 11:47:09 by rhallste          #+#    #+#             */
+/*   Updated: 2017/10/21 11:47:11 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-void	*ft_realloc(void *src, size_t size)
+void	*ft_memrealloc(void *src, size_t size)
 {
 	void *new;
 
