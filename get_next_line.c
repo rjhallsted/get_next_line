@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/20 01:04:55 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/21 12:50:51 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,39 +32,19 @@ static void	shift_chars_left(t_data *data, int shift_by)
 	ft_bzero(data->buff + i, BUFF_SIZE - i);
 }
 
-static void	buff_to_line(char **line, t_data *data, int copy_len)
-{
-	int shift_by;
-
-	*line = ft_realloc(*line, data->line_len + 1);
-	ft_strncat(*line, data->buff, copy_len);
-	shift_by = (copy_len < BUFF_SIZE) ? copy_len + 1 : 0;
-	shift_chars_left(data, shift_by);
-}
-
-static int	prelim_checks(char **line, t_data *data)
-{
-	char	*char_pos;
-
-	char_pos = ft_strchr(data->buff, '\n');
-	if (char_pos)
-		data->line_len = char_pos - data->buff;
-	else
-		data->line_len = ft_strlen(data->buff);
-	*line = NULL;
-	buff_to_line(line, data, data->line_len);
-	return ((char_pos != NULL));
-}
-
 static int	run_copy(char **line, t_data *data, int rv)
 {
 	char	*char_pos;
 	int		copy_len;
+	int		shift_by;
 
 	char_pos = ft_strchr(data->buff, '\n');
 	copy_len = (char_pos) ? (char_pos - data->buff) : rv;
 	data->line_len += copy_len;
-	buff_to_line(line, data, copy_len);
+	*line = ft_memrealloc(*line, data->line_len + 1);
+	ft_strncat(*line, data->buff, copy_len);
+	shift_by = (copy_len < BUFF_SIZE) ? copy_len + 1 : 0;
+	shift_chars_left(data, shift_by);
 	return ((char_pos != NULL));
 }
 
@@ -75,21 +55,22 @@ int			get_next_line(const int fd, char **line)
 
 	if (!(line))
 		return (-1);
-	if (prelim_checks(line, &data))
+	*line = NULL;
+	if (run_copy(line, &data, ft_strlen(data.buff)))
 		return (1);
-	if (((rv = read(fd, data.buff, BUFF_SIZE)) == 0 && ft_strlen(*line) == 0)
-		|| rv == -1)
-		return (rv);
+	if ((rv = read(fd, data.buff, BUFF_SIZE)) == -1
+		|| (rv == 0 && ft_strlen(*line) == 0))
+		return (-1);
 	if (rv == 0 && ft_strlen(*line) > 0)
 		return (1);
 	while (rv)
 	{
-		if ((run_copy(line, &data, rv)) || rv == 0)
+		if (run_copy(line, &data, rv))
 			return (1);
 		if ((rv = read(fd, data.buff, BUFF_SIZE)) == -1)
 			return (-1);
 		if (rv == 0)
 			return (1);
 	}
-	return (-1);
+	return (0);
 }
