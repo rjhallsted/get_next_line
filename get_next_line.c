@@ -6,14 +6,13 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/21 15:32:51 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/22 17:50:11 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 ** Current things to change:
-** 1) add support for multiple file descriptors
-** 2) rename the static data functions to something more specific, and rename
+** 1) rename the static data functions to something more specific, and rename
 ** ** t_data as well. It's too general.
 */
 
@@ -22,8 +21,6 @@
 #include <stdlib.h>
 #include "libft/libft.h"
 #include "get_next_line.h"
-
-#include <stdio.h>
 
 static int		run_copy(char **line, t_data *data, int rv)
 {
@@ -73,7 +70,7 @@ static t_data	*find_data(t_data **first, int fd)
 		return (*first);
 	}
 	item = *first;
-	if (item->fd == fd)	
+	if (item->fd == fd)
 		return (item);
 	while (item->next)
 	{
@@ -84,7 +81,7 @@ static t_data	*find_data(t_data **first, int fd)
 	item = *first;
 	*first = new_data_item(fd);
 	(*first)->next = item;
-	return (item->next);
+	return (*first);
 }
 
 static void		free_data(t_data **first, t_data *data)
@@ -93,7 +90,7 @@ static void		free_data(t_data **first, t_data *data)
 	t_data *item;
 
 	if (!data || !first)
-		return;
+		return ;
 	if (*first == data)
 	{
 		tmp = data->next;
@@ -117,12 +114,9 @@ int				get_next_line(const int fd, char **line)
 	t_data			*data;
 	int				rv;
 
-	if (!(line) || fd < 0)
+	if (!(line) || fd < 0 || (!(data = find_data(&first, fd))))
 		return (-1);
 	*line = NULL;
-	if (!(data = find_data(&first, fd)))
-		return (-1);
-	printf("using fd %d\n", fd);
 	if (ft_strlen(data->buff) > 0
 		&& run_copy(line, data, ft_strlen(data->buff)))
 		return (1);
@@ -132,21 +126,15 @@ int				get_next_line(const int fd, char **line)
 		free_data(&first, data);
 		return (rv);
 	}
-	if (rv == 0 && *line != NULL)
-		return (1);
 	while (rv)
 	{
-		printf("in loop\n");
 		if (run_copy(line, data, rv))
 			return (1);
-		printf("buff: %s\n", data->buff);
 		if ((rv = read(fd, data->buff, BUFF_SIZE)) == -1)
 		{
 			free_data(&first, data);
 			return (-1);
 		}
-		if (rv == 0)
-			return (1);
 	}
-	return (0);
+	return ((rv == 0 && *line != NULL));
 }
