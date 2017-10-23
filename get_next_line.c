@@ -6,15 +6,9 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/22 17:50:11 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/22 18:13:14 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** Current things to change:
-** 1) rename the static data functions to something more specific, and rename
-** ** t_data as well. It's too general.
-*/
 
 #include <unistd.h>
 #include <string.h>
@@ -22,7 +16,7 @@
 #include "libft/libft.h"
 #include "get_next_line.h"
 
-static int		run_copy(char **line, t_data *data, int rv)
+static int		run_copy(char **line, t_fdb *data, int rv)
 {
 	char	*char_pos;
 	int		copy_len;
@@ -44,11 +38,11 @@ static int		run_copy(char **line, t_data *data, int rv)
 	return ((char_pos != NULL));
 }
 
-static t_data	*new_data_item(int fd)
+static t_fdb	*new_data_item(int fd)
 {
-	t_data	*new;
+	t_fdb	*new;
 
-	if (!(new = ft_memalloc(sizeof(t_data))))
+	if (!(new = ft_memalloc(sizeof(t_fdb))))
 		return (NULL);
 	new->fd = fd;
 	new->line_len = 0;
@@ -57,9 +51,9 @@ static t_data	*new_data_item(int fd)
 	return (new);
 }
 
-static t_data	*find_data(t_data **first, int fd)
+static t_fdb	*find_fdb(t_fdb **first, int fd)
 {
-	t_data	*item;
+	t_fdb	*item;
 
 	if (!first)
 		return (NULL);
@@ -84,10 +78,10 @@ static t_data	*find_data(t_data **first, int fd)
 	return (*first);
 }
 
-static void		free_data(t_data **first, t_data *data)
+static void		free_fdb(t_fdb **first, t_fdb *data)
 {
-	t_data *tmp;
-	t_data *item;
+	t_fdb *tmp;
+	t_fdb *item;
 
 	if (!data || !first)
 		return ;
@@ -110,29 +104,27 @@ static void		free_data(t_data **first, t_data *data)
 
 int				get_next_line(const int fd, char **line)
 {
-	static t_data	*first;
-	t_data			*data;
+	static t_fdb	*first;
+	t_fdb			*d;
 	int				rv;
 
-	if (!(line) || fd < 0 || (!(data = find_data(&first, fd))))
+	if (!(line) || fd < 0 || (!(d = find_fdb(&first, fd))))
 		return (-1);
 	*line = NULL;
-	if (ft_strlen(data->buff) > 0
-		&& run_copy(line, data, ft_strlen(data->buff)))
+	if (ft_strlen(d->buff) > 0 && run_copy(line, d, ft_strlen(d->buff)))
 		return (1);
-	if ((rv = read(fd, data->buff, BUFF_SIZE)) == -1
-		|| (rv == 0 && *line == NULL))
+	if ((rv = read(fd, d->buff, BUFF_SIZE)) == -1 || (rv == 0 && *line == NULL))
 	{
-		free_data(&first, data);
+		free_fdb(&first, d);
 		return (rv);
 	}
 	while (rv)
 	{
-		if (run_copy(line, data, rv))
+		if (run_copy(line, d, rv))
 			return (1);
-		if ((rv = read(fd, data->buff, BUFF_SIZE)) == -1)
+		if ((rv = read(fd, d->buff, BUFF_SIZE)) == -1)
 		{
-			free_data(&first, data);
+			free_fdb(&first, d);
 			return (-1);
 		}
 	}

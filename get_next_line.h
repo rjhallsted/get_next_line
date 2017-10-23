@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:40:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/22 17:41:17 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/22 18:08:39 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 #  define BUFF_SIZE 32
 # endif
 
-typedef struct		s_data
+typedef struct		s_fdb
 {
 	int				fd;
 	int				line_len;
 	char			buff[BUFF_SIZE + 1];
-	struct s_data	*next;
-}					t_data;
+	struct s_fdb	*next;
+}					t_fdb;
 
 int					get_next_line(const int fd, char **line);
 
