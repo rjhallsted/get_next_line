@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:40:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/22 18:08:39 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/22 18:26:04 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFF_SIZE
-#  define BUFF_SIZE 32
+#  define BUFF_SIZE 42
 # endif
 
 typedef struct		s_fdb
