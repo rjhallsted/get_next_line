@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/21 11:47:09 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/21 11:47:11 by rhallste         ###   ########.fr       */
+/*   Created: 2017/10/21 11:48:07 by rhallste          #+#    #+#             */
+/*   Updated: 2017/10/26 12:10:43 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*ft_memrealloc(void *src, size_t size)
 		return (NULL);
 	if (!(new = ft_memalloc(size)))
 		return (NULL);
-	ft_memcpy(new, (const void*)src, size);
+	ft_memmove(new, (const void*)src, size);
 	free(src);
 	return (new);
 }
