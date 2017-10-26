@@ -6,9 +6,15 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 18:42:35 by rhallste          #+#    #+#             */
-/*   Updated: 2017/09/19 18:53:16 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/26 14:02:19 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** Currently contains a bug. If the size is bigger than difference between the
+** location of source and the end of usable memory, the program will segfault
+** when it hits that point.
+*/
 
 #include <string.h>
 

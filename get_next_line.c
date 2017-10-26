@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 16:38:28 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/22 18:13:14 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/26 14:41:31 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ static int		run_copy(char **line, t_fdb *data, int rv)
 	char	*char_pos;
 	int		copy_len;
 	int		i;
+	size_t	old_len;
 
 	char_pos = ft_strchr(data->buff, '\n');
 	copy_len = (char_pos) ? (char_pos - data->buff) : rv;
+	old_len = data->line_len;
 	data->line_len += copy_len;
-	*line = ft_memrealloc(*line, data->line_len + 1);
+	if (!(*line = ft_memrealloc(*line, data->line_len + 1, old_len)))
+		return (-1);
 	ft_strncat(*line, data->buff, copy_len);
 	i = 0;
 	copy_len++;
@@ -111,8 +114,8 @@ int				get_next_line(const int fd, char **line)
 	if (!(line) || fd < 0 || (!(d = find_fdb(&first, fd))))
 		return (-1);
 	*line = NULL;
-	if (ft_strlen(d->buff) > 0 && run_copy(line, d, ft_strlen(d->buff)))
-		return (1);
+	if (ft_strlen(d->buff) > 0 && (rv = run_copy(line, d, ft_strlen(d->buff))))
+		return (rv);
 	if ((rv = read(fd, d->buff, BUFF_SIZE)) == -1 || (rv == 0 && *line == NULL))
 	{
 		free_fdb(&first, d);
